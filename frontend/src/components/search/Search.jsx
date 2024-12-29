@@ -22,7 +22,7 @@ import { BiSearchAlt } from "react-icons/bi";
    
     return(
         <form
-        className="flex bg-red-400 h-7 justify-center items-center mt-2 mb-2 rounded sm:p-4"
+        className="flex bg-white border h-7 justify-center items-center mt-2 mb-2 rounded sm:p-4"
         onSubmit={handleSubmit}
       >
         <input
@@ -30,12 +30,12 @@ import { BiSearchAlt } from "react-icons/bi";
           value={values.keyword}
           onChange={(e) => setValues({ ...values, keyword: e.target.value })}
           placeholder="Search..."
-          className="outline-none ml-2 bg-red-400 focus:ring-0 border-transparent"
+          className="outline-none ml-2 bg-white focus:ring-0 border-transparent"
         />
   
         <button
           type="submit"
-          className="ml-2 p-2 h-9 rounded-lg  text-white flex items-center justify-center"
+          className="ml-2 p-2 h-9 rounded-lg  text-black-100 flex items-center justify-center"
         >
           <BiSearchAlt className="text-lg" />
         </button>

@@ -1,64 +1,65 @@
-import categoryScheama from '../models/category.model.js'
-export const CreateCategoryController = async (req,res)=>{
+import stateScheama from '../models/state.model.js'
+export const CreatestateController = async (req,res)=>{
     try {
        const {name} = req.body 
        if(!name){
         return res.status(401).send({message:'name is required'})
     }
-    const exisitingCategory = await categoryScheama.findOne({name})
-    if(exisitingCategory){
+    const exisitingstate = await stateScheama.findOne({name})
+    if(exisitingstate){
         return res.status(200).send({
             success:true,
-            message:'category already exists'
+            message:'state already exists'
         })
     }
-    const category = await categoryScheama({name}).save()
+    const state = await stateScheama({name}).save()
     res.status(201).send({
         success:true,
-        message:'New category Created',
-        category
+        message:'New state Created',
+        state
     })
     } catch (error) {
         console.log(error);
         res.status(500).send({
             success:false,
             error,
-            message:'error in category'
+            message:'error in state'
         })
         
     }
 }
 
-export const updateCategoryController = async (req,res) =>{
+export const updatestateController = async (req,res) =>{
     try {
         const {name}=req.body;
         const {id} =req.params;
-        const category = await categoryScheama.findByIdAndUpdate(id,{name},
+        const state = await stateScheama.findByIdAndUpdate(id,{name},
             {new:true}
         );
         res.status(200).send({
             success:true,
-            message:'Category Updated Successfully',
-            category,
+            message:'state Updated Successfully',
+            state,
         });
     } catch (error) {
         console.log(error);
         res.status(500).send({
             success:false,
             error,
-            message:'Error While Updating Category'
+            message:'Error While Updating state'
         })
         
     }
 }
 
-export const singlecategoryController = async (req,res) =>{
+export const singlestateController = async (req,res) =>{
     try {
         const {_id} =req.params;
-        const category = await categoryScheama.findOne({_id});
+        const state = await stateScheama.findOne({_id});
         res.status(200).send({
+            state,
             success:true,
-            message:'Get Single Category Sucessfully'
+            message:'Get Single state Sucessfully'
         });
 
     } catch (error) {
@@ -66,18 +67,18 @@ export const singlecategoryController = async (req,res) =>{
         res.status(500).send({
             success:false,
             error,
-            message:'Error in getting Single category'
+            message:'Error in getting Single state'
         })
             }
 };
 
-export const categoryController = async (req, res) => {
+export const stateController = async (req, res) => {
     try {
-      const category = await categoryScheama.find();
+      const state = await stateScheama.find();
       res.status(200).send({
         success: true,
-        message: "All Categories List",
-        category,
+        message: "All State List",
+        state,
       });
     } catch (error) {
       console.log(error);
@@ -90,20 +91,20 @@ export const categoryController = async (req, res) => {
   };
 
 
-export const deleteCategoryController = async(req,res)=>{
+export const deletestateController = async(req,res)=>{
     try {
        const {id} =req.params;
-       await categoryScheama.findByIdAndDelete(id);
+       await stateScheama.findByIdAndDelete(id);
        res.status(200).send({
         success:true,
-        message:'Successfully Deleted Category'
+        message:'Successfully Deleted state'
        })
     } catch (error) {
         console.log(error);
         res.status(500).send({
             success:false,
             error,
-            message:'error in deleting category',
+            message:'error in deleting state',
         });
         
         

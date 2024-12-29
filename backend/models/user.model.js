@@ -21,9 +21,13 @@ const userSchema=new mongoose.Schema
         required: true,
       },
     
-      address: {
-        type: {},
+      // address: {
+      //   type: {},
+      // },
+      type:{
+          type:String
       },
+      
   
       role: {
         type: Number,

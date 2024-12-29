@@ -11,17 +11,12 @@ const UserMenu = () => {
         <h2 className="text-lg font-semibold mb-4">User Menu</h2>
         <div className="space-y-4">
           <Link
-            to="/dashboard/user/profile"
+            to="/dashboard/user/addmcctrain"
             className="block text-center bg-red-500 text-white py-3 rounded-md hover:bg-red-600 shadow-md"
           >
-           Update Profile
+           Add MCC Train
           </Link>
-          <Link
-            to={`/dashboard/user/orders/${auth.user._id}`}
-            className="block text-center bg-red-500 text-white py-3 rounded-md hover:bg-red-600 shadow-md"
-          >
-            Orders
-          </Link>
+        
         </div>
       </div>
     </div>

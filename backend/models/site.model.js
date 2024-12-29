@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema(
+const siteSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
 
-    category: {
+    state: {
       type: String,
       required: true,
     },
@@ -19,5 +19,5 @@ const productSchema = new mongoose.Schema(
 
 
 
-export default mongoose.model("products", productSchema);
+export default mongoose.model("sites", siteSchema);
 

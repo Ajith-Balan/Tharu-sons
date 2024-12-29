@@ -5,38 +5,38 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const CreateType = () => {
-  const [categories, setCategories] = useState([]);
+  const [states, setStates] = useState([]);
   const [sites, setSites] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [product, setProduct] = useState({
+  const [types, setTypes] = useState({
+    state: '',
     site: '',
-    category: '',
   });
   const [names, setNames] = useState(['']); // Array of names, initially one empty input
 
-  // Fetch all categories
-  const getAllCategory = async () => {
+  // Fetch all states
+  const getAllStates = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/category/get-category`);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/states/get-states`);
       if (data?.success) {
-        setCategories(data?.category);
+        setStates(data?.state);
       } else {
-        toast.error('Failed to fetch categories');
+        toast.error('Failed to fetch States');
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || 'Something went wrong in getting categories');
+      toast.error(error.response?.data?.message || 'Something went wrong in getting States');
     }
   };
 
-  // Fetch sites for the selected category
-  const getSitesByCategory = async () => {
+  // Fetch sites for the selected state
+  const getSitesByStates = async () => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/product/product-category/${product.category}`
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/site/site-states/${types.state}`
       );
       if (data?.success) {
-        setSites(data?.products);
+        setSites(data?.sites);
       } else {
         toast.error('Failed to fetch sites');
         setSites([]);
@@ -49,22 +49,22 @@ const CreateType = () => {
   };
 
   useEffect(() => {
-    getAllCategory();
+    getAllStates();
   }, []);
 
   useEffect(() => {
-    if (product.category) {
-      getSitesByCategory();
+    if (types.state) {
+      getSitesByStates();
     } else {
       setSites([]);
     }
-  }, [product.category]);
+  }, [types.state]);
 
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
+    setTypes((prevTypes) => ({
+      ...prevTypes,
       [name]: value,
     }));
   };
@@ -82,11 +82,11 @@ const CreateType = () => {
   };
 
   // Add site for all names
-  const handleAddProduct = async (e) => {
+  const handleAddType = async (e) => {
     e.preventDefault();
 
-    if (!product.category || !product.site) {
-      toast.error('Please select a category and a site');
+    if (!types.state || !types.site) {
+      toast.error('Please select a state and a site');
       return;
     }
 
@@ -95,13 +95,16 @@ const CreateType = () => {
     for (const name of names) {
       if (!name.trim()) continue; // Skip empty names
       try {
-        const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND}/api/v1/cat/create-cat`, {
-          name,
-          category: product.category,
-          site: product.site,
-        });
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_APP_BACKEND}/api/v1/types/create-worktype`,
+          {
+            name,
+            state: types.state,
+            site: types.site,
+          }
+        );
         if (data?.success) {
-          toast.success(`Product "${name}" added successfully!`);
+          toast.success(`Work type "${name}" added successfully!`);
         } else {
           toast.error(data?.message || `Failed to add "${name}"`);
         }
@@ -116,27 +119,27 @@ const CreateType = () => {
   };
 
   return (
-    <Layout title="Dashboard - Create Product">
-      <div className="container mx-auto py-6 px-4 bg-white rounded-lg shadow-lg">
+    <Layout title="Dashboard - Create Work Type">
+      <div className="container mx-auto my-6 p-6 bg-white shadow-lg rounded-lg">
+        <AdminMenu />
+
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/4 mb-6 md:mb-0">
-            <AdminMenu />
-          </div>
+          <div className="md:w-1/4 mb-6 md:mb-0"></div>
           <div className="md:w-3/4">
-            <h1 className="text-3xl font-bold mb-6">Create Type</h1>
+            <h1 className="text-3xl font-bold mb-6">Create Work Type</h1>
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-700 mb-2">State</label>
                 <select
-                  name="category"
-                  value={product.category}
+                  name="state"
+                  value={types.state}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                 >
                   <option value="" disabled>
-                    Select a Category
+                    Select a State
                   </option>
-                  {categories.map((c) => (
+                  {states.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}
                     </option>
@@ -148,17 +151,17 @@ const CreateType = () => {
                 <label className="block text-gray-700 mb-2">Site</label>
                 <select
                   name="site"
-                  value={product.site}
+                  value={types.site}
                   className={`w-full p-2 border border-gray-300 rounded-lg focus:outline-none ${
-                    product.category
+                    types.state
                       ? 'focus:ring-2 focus:ring-blue-500'
                       : 'bg-gray-100 cursor-not-allowed'
                   }`}
                   onChange={handleChange}
-                  disabled={!product.category}
+                  disabled={!types.state}
                 >
                   <option value="" disabled>
-                    {product.category ? 'Select a Site' : 'Select a Category first'}
+                    {types.state ? 'Select a Site' : 'Select a State first'}
                   </option>
                   {sites.map((s) => (
                     <option key={s._id} value={s._id}>
@@ -169,14 +172,14 @@ const CreateType = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Category</label>
+                <label className="block text-gray-700 mb-2">Work Type</label>
                 {names.map((name, index) => (
                   <div key={index} className="flex items-center space-x-2 mb-2">
                     <input
                       type="text"
                       value={name}
                       onChange={(e) => handleNameChange(index, e.target.value)}
-                      placeholder="Enter Category name"
+                      placeholder="Enter work type name"
                       className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     {index === names.length - 1 && (
@@ -184,6 +187,7 @@ const CreateType = () => {
                         type="button"
                         onClick={addNameField}
                         className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:ring focus:ring-green-300"
+                        aria-label="Add another work type"
                       >
                         +
                       </button>
@@ -199,10 +203,12 @@ const CreateType = () => {
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-blue-600 hover:bg-blue-700 focus:ring focus:ring-blue-500'
                   }`}
-                  onClick={handleAddProduct}
-                  disabled={loading || !product.category || !product.site || names.every((name) => !name.trim())}
+                  onClick={handleAddType}
+                  disabled={
+                    loading || !types.state || !types.site || names.every((name) => !name.trim())
+                  }
                 >
-                  {loading ? 'Adding...' : 'ADD SITE'}
+                  {loading ? 'Adding...' : 'ADD WORK TYPE'}
                 </button>
               </div>
             </div>

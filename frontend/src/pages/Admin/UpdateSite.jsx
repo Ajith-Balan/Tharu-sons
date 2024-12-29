@@ -1,43 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import Layout from '../../components/layout/Layout';
+import Layout from '../../components/layout/Layout.jsx';
 import AdminMenu from '../../components/layout/AdminMenu.jsx';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const UpdateProduct = () => {
+const UpdateSite = () => {
   const navigate = useNavigate();
   const { id } = useParams(); // Fix destructuring here
   
-  const [productData, setProductData] = useState({
+  const [siteData, setsiteData] = useState({
     
   });
 
   const [categories, setCategories] = useState([]);
 
-  // Get single product
-  const getSingleProduct = async () => {
+  // Get single site
+  const getSinglesite = async () => {
     try {
       const  res  = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/product/getone-product/${id}`
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/site/getone-site/${id}`
       );
-      setProductData({ ...res.data }); // Correct destructuring
+      setsiteData({ ...res.data }); // Correct destructuring
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while fetching the product details");
+      toast.error("Something went wrong while fetching the site details");
     }
   };
 
   useEffect(() => {
-    getSingleProduct();
+    getSinglesite();
   }, []);
 
   // Get all categories
-  const getAllCategory = async () => {
+  const getAllstate = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/category/get-category`);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/states/get-states`);
       if (data?.success) {
-        setCategories(data?.category);
+        setCategories(data?.state);
       }
     } catch (error) {
       console.log(error);
@@ -46,60 +46,59 @@ const UpdateProduct = () => {
   };
 
   useEffect(() => {
-    getAllCategory();
+    getAllstate();
   }, []);
 
-  // Update product function
+  // Update site function
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
 
 
       const { data } = await axios.post(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/product/update-product/${id}`, // Use the id from the URL
-        productData
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/site/update-site/${id}`, // Use the id from the URL
+        siteData
       );
       if (data?.success) {
         toast.error(data?.message);
       } else {
-        toast.success("Product Updated Successfully");
-        setTimeout(() => {
-          navigate("/dashboard/admin/products");
-        }, 1000);      }
+        toast.success("site Updated Successfully");
+       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while updating the product");
+      toast.error("Something went wrong while updating the site");
     }
   };
 
-  // Delete a product
+  // Delete a site
   const handleDelete = async () => {
     try {
-      let answer = window.prompt("Are you sure you want to delete this product?");
+      let answer = window.prompt("Are you sure you want to delete this site?");
       if (!answer) return;
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/product/delete-product/${id}` // Use the id from the URL
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/site/delete-site/${id}` // Use the id from the URL
       );
-      toast.success("Product Deleted Successfully");
+      toast.success("site Deleted Successfully");
       setTimeout(() => {
-      navigate("/dashboard/admin/products");
+      navigate("/dashboard/admin/sites");
     }, 1000);
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong while deleting the product");
+      toast.error("Something went wrong while deleting the site");
     }
   };
 
   // Handle input changes
   const handleInputChange = (e) => {
-    setProductData({ ...productData, [e.target.name]: e.target.value });
+    setsiteData({ ...siteData, [e.target.name]: e.target.value });
   };
 
   return (
-    <Layout title={"Dashboard - Update Product"}>
-                  <AdminMenu />
+    <Layout title={"Dashboard - Update site"}>
 
-      <div className="container mx-auto my-8">
+      <div className="container mx-auto my-6 p-6 bg-white shadow-lg rounded-lg">
+      <AdminMenu />
+
         <div className="flex justify-center">
          
           <div className="w-3/4">
@@ -108,12 +107,12 @@ const UpdateProduct = () => {
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900">State</label>
                 <select
-                  name="category"
+                  name="state"
                   className="block w-full p-2 border border-gray-300 rounded-md"
-                  onChange={(e) => setProductData({ ...productData, category: e.target.value })}
-                  value={productData.category}
+                  onChange={(e) => setsiteData({ ...siteData, state: e.target.value })}
+                  value={siteData.state}
                 >
-                  <option value="">Select a category</option>
+                  <option value="">Select a state</option>
                   {categories?.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}
@@ -146,7 +145,7 @@ const UpdateProduct = () => {
                 <input
                   type="text"
                   name="name"
-                  value={productData.name}
+                  value={siteData.name}
                   placeholder="Write a name"
                   className="block w-full p-2 border border-gray-300 rounded-md"
                   onChange={handleInputChange}
@@ -181,4 +180,4 @@ const UpdateProduct = () => {
   );
 };
 
-export default UpdateProduct;
+export default UpdateSite;

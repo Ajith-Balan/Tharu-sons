@@ -1,5 +1,5 @@
 import userModel from "../models/user.model.js";
-import orderModel from "../models/order.model.js";
+import orderModel from "../models/mcc.model.js";
 import nodemailer from 'nodemailer'
 import {comparePassword,  hashPassword } from "../helpers/authhelper.js";
 import JWT from "jsonwebtoken"
@@ -13,7 +13,7 @@ dotenv.config()
 
 export const registerController = async (req,res)=>{
 try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, type } = req.body; 
     if (!name) {
         return res.send({ error: "Name is Required" });
       }
@@ -25,6 +25,8 @@ try {
       }
       if (!phone) {
         return res.send({ message: "Phone no is Required" });
+      }   if (!type) {
+        return res.send({ message: "type is Required" });
       }
    
    
@@ -45,7 +47,7 @@ try {
       name,
       email,
       phone,
-      address,
+      type,
       password: hashedPassword
       
     }).save();
@@ -99,7 +101,7 @@ export const loginController = async (req, res) => {
           name: user.name,
           email: user.email,
           phone: user.phone,
-          address: user.address,
+          type:user.type,
           role: user.role,
         },
         token,
@@ -125,7 +127,35 @@ export const loginController = async (req, res) => {
 
 
 
-
+  export const getoneManager = async (req, res) => {
+    try {
+      const { id } = req.params; // Extract `id` from request parameters
+  
+      // Find one user with role 2 for the given type
+      const manager = await userModel.findOne({ type: id, role: 2 });
+  
+      if (!manager) {
+        return res.status(404).send({
+          success: false,
+          message: 'Manager not found for the given type',
+        });
+      }
+  
+      // Respond with the manager data
+      res.status(200).send({
+        success: true,
+        manager,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        success: false,
+        message: 'An error occurred while fetching the manager',
+        error: error.message,
+      });
+    }
+  };
+  
 
   export const updateProfile = async (req, res) => {
     try {

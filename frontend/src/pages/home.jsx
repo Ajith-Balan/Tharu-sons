@@ -4,9 +4,9 @@ import { useAuth } from '../context/Auth';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import useCategory from '../hooks/useCategory';
+import useStates from '../hooks/useStates.jsx';
 function Home() {
-  const categories = useCategory();
+  const states = useStates();
 
   const [auth, setAuth] = useAuth();
   const [products, setProducts] = useState([]);

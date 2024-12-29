@@ -8,7 +8,7 @@ const aboutImage = 'https://st2.depositphotos.com/3591429/10566/i/450/depositpho
 const About = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center">
-      <Layout title={'About Us - Ecommerce App'}>
+      <Layout title={'About Us '}>
         <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg p-6">
           <h1 className="text-3xl font-semibold mt-6 mb-4 text-center text-red-600">About CJ Attire</h1>
           <img src={aboutImage} alt="About CJ Attire" className="w-full h-48 object-cover rounded-md mb-4" />

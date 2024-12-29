@@ -33,17 +33,9 @@ const Footer = () => {
         </div>
         {/* Copyright Section */}
         <div className="mt-4 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} CJ ATTIRE. All rights reserved. </p>
-          <p >Made with .  </p>
+          <p>&copy; {new Date().getFullYear()} Tharu & sons All rights reserved. </p>
           <div className="max-w-7xl mx-auto flex justify-center space-x-4">
-        <a 
-          href="https://www.instagram.com/ajith____b?igsh=MTQ2Z3Nuc2RwejR2Mw==" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="hover:text-gray-400"
-        >
-          Quick Tech
-        </a>
+     
       {/*   <a 
           href="https://wa.me/8129718562" 
           target="_blank" 

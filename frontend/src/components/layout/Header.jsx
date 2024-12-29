@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useAuth } from '../../context/Auth';
 import { toast } from 'react-toastify';
-import useCategory from '../../hooks/useCategory';
+import usestates from '../../hooks/useStates';
 import { useCart } from '../../context/cart';
 import logo from '../../assets/Black White Elegant Monogram Initial Name Logo_20240606_180138_0000.png';
 import SearchInput from '../search/Search';
@@ -10,7 +10,7 @@ import { BsCart4 } from "react-icons/bs";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"; // Import Instagram and WhatsApp icons
 
 const Header = () => {
-  const categories = useCategory();
+  const States = usestates();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpend, setIsOpend] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -32,23 +32,21 @@ const Header = () => {
   const dashboardPath = `/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`;
 
   return (
-    <nav className="bg-red-600 w-full fixed z-10  top-0">
+    <nav className=" w-full fixed z-10  top-0">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-10">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-white text-lg font-bold">
+            <Link to="/" className="text-black text-lg font-bold">
               <img className="h-8 w-auto rounded" src={logo} alt="Logo" />
             </Link>
           </div>
 
           <SearchInput />
-          <Link to="/cart" className="flex text-gray-300 hover:bg-red-400 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-            <BsCart4 /> {cart?.length}
-          </Link>
+    
           {/* Hamburger Icon for mobile */}
           <div className="sm:hidden">
-            <button onClick={toggleMenu} className="text-gray-400 hover:text-white">
+            <button onClick={toggleMenu} className="text-black-400 hover:text-black-800">
               <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
@@ -61,26 +59,26 @@ const Header = () => {
 
           {/* Links for large screens */}
           <div className="hidden sm:flex space-x-4 items-center">
-            <Link to="/" className="text-gray-300 hover:bg-red-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+            <Link to="/" className="text-black-300 hover:bg-gray-400 hover:text-black-800 px-3 py-2 rounded-md text-sm font-medium">
               Home
             </Link>
 
-            <Link to="/about" className="text-gray-300 hover:bg-red-400 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+            <Link to="/about" className="text-black-300 hover:bg-gray-400 hover:text-black-800 px-3 py-2 rounded-md text-sm font-medium">
               About Us
             </Link>
 
             {!auth.user ? (
               <>
-                <Link to="/register" className="text-gray-300 hover:bg-red-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/register" className="text-black-300 hover:bg-gray-400 hover:text-black-800 px-3 py-2 rounded-md text-sm font-medium">
                   Register
                 </Link>
-                <Link to="/login" className="text-gray-300 hover:bg-red-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                <Link to="/login" className="text-black-300 hover:bg-gray-400 hover:text-black-800 px-3 py-2 rounded-md text-sm font-medium">
                   Login
                 </Link>
               </>
             ) : (
               <div className="relative inline-block text-left">
-                <button onClick={toggleDropdown} className="inline-flex justify-center w-full rounded-md px-4 py-2 bg-red-600 text-sm font-medium text-white hover:bg-red-400">
+                <button onClick={toggleDropdown} className="inline-flex justify-center w-full rounded-md px-4 py-2  text-sm font-medium text-black-800 x hover:bg-gray-400">
                   {auth?.user?.name}
                   <svg className="h-5 w-6 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v.01M12 12v.01M12 18v.01" />
@@ -89,10 +87,8 @@ const Header = () => {
                 {isOpend && (
                   <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div className="py-1">
-                      <Link to={dashboardPath} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        Settings
-                      </Link>
-                      <div onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                  
+                      <div onClick={handleLogout} className="block px-4 py-2 text-sm text-black-700 hover:bg-gray-100 cursor-pointer">
                         Logout
                       </div>
                     </div>
@@ -103,14 +99,14 @@ const Header = () => {
 
 
             {/* Social Icons */}
-            <div className="flex gap-4">
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
+            {/* <div className="flex gap-4">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="text-black-800 hover:text-gray-400">
                 <FaInstagram className="h-6 w-6" />
               </a>
-              <a href="https://wa.me/your-number" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
+              <a href="https://wa.me/your-number" target="_blank" rel="noopener noreferrer" className="text-black-800 hover:text-gray-400">
                 <FaWhatsapp className="h-6 w-6" />
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -137,9 +133,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link to={dashboardPath} className="block text-gray-300 hover:bg-red-400 hover:text-white px-3 py-2 rounded-md text-base font-medium">
-                Settings
-              </Link>
+             
               <div onClick={handleLogout} className="block text-gray-300 hover:bg-red-400 hover:text-white px-3 py-2 rounded-md text-base font-medium cursor-pointer">
                 Logout
               </div>

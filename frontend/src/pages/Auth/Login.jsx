@@ -18,8 +18,13 @@ const Login = () => {
   // Redirect if auth is present
   useEffect(() => {
     if (auth?.user) {
-      const dashboardPath = auth.user.role === 1 ? "/dashboard/admin" : "/dashboard/user";
-      navigate(dashboardPath);
+       const dashboardPath = 
+        auth.user.role === 1 
+            ? "/dashboard/admin" 
+            : auth.user.role === 2 
+                ? "/dashboard/manager" 
+                : "/dashboard/user";
+            navigate(dashboardPath);
     }
   }, [auth, navigate]);
 
@@ -46,8 +51,13 @@ const Login = () => {
         localStorage.setItem("auth", JSON.stringify(res.data));
 
         // Redirect after successful login
-        const dashboardPath = res.data.user.role === 1 ? "/dashboard/admin" : "/dashboard/user";
-        navigate(location.state?.from || dashboardPath);
+        const dashboardPath = 
+        res.data.user.role === 1 
+            ? "/dashboard/admin" 
+            : res.data.user.role === 2 
+                ? "/dashboard/manager" 
+                : "/dashboard/user";
+            navigate(location.state?.from || dashboardPath);
       } else {
         toast.error(res.data.msg || "Login failed");
       }

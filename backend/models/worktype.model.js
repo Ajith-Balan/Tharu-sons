@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const catSchema = new mongoose.Schema(
+const worktypeSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
 
-    category: {
+    state: {
       type: String,
       required: true,
     },
@@ -23,5 +23,5 @@ const catSchema = new mongoose.Schema(
 
 
 
-export default mongoose.model("cats", catSchema);
+export default mongoose.model("worktypes", worktypeSchema);
 

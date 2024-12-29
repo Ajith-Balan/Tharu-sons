@@ -15,23 +15,20 @@ import './App.css';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import AdminRoute from './components/Routes/AdminRoute';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import CreateProduct from './pages/Admin/CreateProduct';
-import CreateCategory from './pages/Admin/CreateCategory';
 
-import Users from './pages/Admin/Users';
-import Orders from './pages/user/Orders';
-import Profile from './pages/user/Profile';
-import Products from './pages/Admin/Products';
-import UpdateProduct from './pages/Admin/UpdateProduct';
-import ProductDetails from './pages/ProductDetails';
-import CartPage from './pages/CartPage';
-import Payment from './pages/user/Payment';
-import OrdersList from './pages/Admin/OrdersList';
+
 import Forget from './pages/Auth/Forget';
 import SearchResult from './pages/SearchResults';
 import CreateType from './pages/Admin/createtype';
-import CategoryProduct from './pages/Admin/CategoryProduct';
 import Types from './pages/Types';
+import CreateStates from './pages/Admin/CreateState';
+import StateSite from './pages/Admin/StateSite';
+import CreateSite from './pages/Admin/CreateSite';
+import UpdateSite from './pages/Admin/UpdateSite';
+import MccDetails from './pages/Admin/MccDetails';
+import ManagerRoute from './components/Routes/ManagerRoute';
+import Managerhome from './pages/manager/Managerhome';
+import Addmcctrain from './pages/user/Addmcctrain';
 function App() {
   return (
     <>
@@ -39,8 +36,6 @@ function App() {
         <ToastContainer />
         <Routes>
         <Route path='/ghj' element={<Home />} />
-        <Route path='/product/:id' element={<ProductDetails />} />
-        <Route path='/cart' element={<CartPage />} />
         <Route path='/search' element={<SearchResult />} />
 
 
@@ -51,27 +46,31 @@ function App() {
           {/* Private Route Wrapper */}
           <Route path='/dashboard' element={<AdminRoute />} >
           <Route path='admin' element={<AdminDashboard />} />
-          <Route path='admin/create-category' element={<CreateCategory/>} />
-          <Route path='admin/category/:id' element={<CategoryProduct />} />
+          <Route path='admin/create-states' element={<CreateStates/>} />
+          <Route path='admin/states/:id' element={<StateSite />} />
+          <Route path='admin/MCC/:id' element={<MccDetails />} />
 
-          <Route path='admin/create-product' element={<CreateProduct/>} />
+          <Route path='admin/create-site' element={<CreateSite/>} />
           <Route path='admin/create-type' element={<CreateType/>} />
 
-          <Route path='admin/update-product/:id' element={<UpdateProduct/>}/>
-          <Route path='admin/orderslist' element={<OrdersList/>} />
+          <Route path='admin/update-site/:id' element={<UpdateSite/>}/>
 
-          <Route path='admin/products' element={<Products/>} />
 
-          <Route path='admin/users' element={<Users/>} />
 
 
           </Route>
    {/* Private Route Wrapper */}
    <Route path='/dashboard' element={<PrivateRoute />} >
           <Route path='user' element={<Dashboard />} />
-          <Route path='user/orders/:userid' element={<Orders />} />
-          <Route path='user/profile' element={<Profile />} />
-          <Route path='user/payment/:id' element={<Payment />} />
+          <Route path='user/addmcctrain' element={<Addmcctrain />} />
+
+
+
+          </Route>
+
+
+          <Route path='/dashboard' element={<ManagerRoute />} >
+          <Route path='manager' element={<Managerhome />} />
 
 
 

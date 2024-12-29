@@ -5,22 +5,22 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const CreateProduct = () => {
+const CreateSite = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState([]);
+  const [states, setStates] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [product, setProduct] = useState({
+  const [site, setSite] = useState({
     name: '',
   
-    category: '',
+    state: '',
   });
 
   // Fetch all categories
-  const getAllCategory = async () => {
+  const getAllStates = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/category/get-category`);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/states/get-states`);
       if (data?.success) {
-        setCategories(data?.category);
+        setStates(data?.state);
       }
     } catch (error) {
       console.error(error);
@@ -29,13 +29,13 @@ const CreateProduct = () => {
   };
 
   useEffect(() => {
-    getAllCategory();
+    getAllStates();
   }, []);
 
   // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevProduct) => ({
+    setSite((prevProduct) => ({
       ...prevProduct,
       [name]: value,
     }));
@@ -46,20 +46,20 @@ const CreateProduct = () => {
     e.preventDefault();
     
     // Basic validation
-    if (!product.name || !product.category) {
+    if (!site.name || !site.state) {
       toast.error('Please fill in all required fields');
       return;
     }
 
     setLoading(true);
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND}/api/v1/product/create-product`, product);
+      const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND}/api/v1/site/create-site`, site);
       if (data?.success) {
         toast.success(data?.message);
-      setProduct({
+      setSite({
          name: '',
    
-    category: '',
+    state: '',
       })
       } else {
         toast.error(data?.message || 'Product creation failed');
@@ -74,10 +74,11 @@ const CreateProduct = () => {
 
   return (
     <Layout title={"Dashboard - Create Product"}>
-      <div className="container mx-auto py-6 px-4 bg-white rounded-lg shadow-lg">
+      <div className="container mx-auto my-6 p-6 bg-white shadow-lg rounded-lg">
+      <AdminMenu />
+
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/4 mb-6 md:mb-0">
-            <AdminMenu />
           </div>
           <div className="md:w-3/4">
             <h1 className="text-3xl font-bold mb-6">Create Site place</h1>
@@ -85,13 +86,13 @@ const CreateProduct = () => {
               <div>
                 <label className="block text-gray-700 mb-2">State</label>
                 <select
-                  name="category"
-                  value={product.category}
+                  name="state"
+                  value={states.state}
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                 >
                   <option value="" disabled>Select a State</option>
-                  {categories.map((c) => (
+                  {states.map((c) => (
                     <option key={c._id} value={c._id}>
                       {c.name}
                     </option>
@@ -103,8 +104,8 @@ const CreateProduct = () => {
                 <input
                   type="text"
                   name="name"
-                  value={product.name}
-                  placeholder="Product name"
+                  value={site.name}
+                  placeholder="Site place name"
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onChange={handleChange}
                   required
@@ -141,4 +142,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateSite;

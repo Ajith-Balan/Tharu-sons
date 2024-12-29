@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../components/layout/Layout';
+import Layout from '../../components/layout/Layout.jsx';
 import AdminMenu from '../../components/layout/AdminMenu.jsx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const CreateCategory = () => {
-  const [categories, setCategories] = useState([]);
+const CreateStates = () => {
+  const [states, setStates] = useState([]);
   const [name, setName] = useState("");
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("")
@@ -14,13 +14,13 @@ const CreateCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND}/api/v1/category/create-category`, {
+      const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND}/api/v1/states/create-states`, {
         name
       });
       if (data?.success) {
         toast.success(`${name} is created`);
         setName("");
-        getAllCategory()
+        getAllStates()
       } else {
         toast.error(data.message);
       }
@@ -31,20 +31,20 @@ const CreateCategory = () => {
   };
 
   // Get all categories
-  const getAllCategory = async () => {
+  const getAllStates = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/category/get-category`);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND}/api/v1/states/get-states`);
       if (data?.success) {
-        setCategories(data.category);
+        setStates(data.state);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong in getting categories");
+      toast.error("Something went wrong in getting States");
     }
   };
 
   useEffect(() => {
-    getAllCategory();
+    getAllStates();
   }, []);
 
   // Update category
@@ -52,14 +52,14 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/category/update-category/${selected._id}`,
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/states/update-states/${selected._id}`,
         { name: updatedName,  }
       );
       if (data?.success) {
         toast.success(`${updatedName} is updated`);
         setSelected(null);
         setUpdatedName("");
-        getAllCategory();
+        getAllStates();
       } else {
         toast.error(data.message);
       }
@@ -73,11 +73,11 @@ const CreateCategory = () => {
   const handleDelete = async (pId) => {
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_APP_BACKEND}/api/v1/category/delete-category/${pId}`
+        `${import.meta.env.VITE_APP_BACKEND}/api/v1/states/delete-states/${pId}`
       );
       if (data.success) {
-        toast.success("Category is deleted");
-        getAllCategory();
+        toast.success("State is deleted");
+        getAllStates();
       } else {
         toast.error(data.message);
       }
@@ -90,19 +90,20 @@ const CreateCategory = () => {
   return (
     <Layout title={"Dashboard - Create Category"}>
       <div className="container mx-auto my-6 p-6 bg-white shadow-lg rounded-lg">
+      <AdminMenu />
+
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/4 mb-4 md:mb-0">
-            <AdminMenu />
           </div>
           <div className="md:w-3/4">
-            <h1 className="text-3xl font-semibold mb-6">Manage All Site</h1>
+            <h1 className="text-3xl font-semibold mb-6">Manage All State</h1>
 
             {/* Create category form */}
             <div className="bg-gray-100 p-6 rounded-lg shadow-lg mb-6 w-full md:w-1/2">
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label htmlFor="category" className="block text-gray-700 font-medium mb-2">
-                    Category Name
+                    State Name
                   </label>
                   <input
                     type="text"
@@ -136,7 +137,7 @@ const CreateCategory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {categories?.map((c) => (
+                  {states?.map((c) => (
                     <tr key={c._id} className="border-b">
                       <td className="px-4 py-2">{c.name}</td>
                       <td className="px-4 py-2">
@@ -165,11 +166,11 @@ const CreateCategory = () => {
             {/* Edit category form */}
             {selected && (
               <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-lg w-full md:w-1/2">
-                <h3 className="text-xl font-semibold mb-4">Edit Category</h3>
+                <h3 className="text-xl font-semibold mb-4">Edit State</h3>
                 <form onSubmit={handleUpdate}>
                   <div className="mb-4">
                     <label htmlFor="editCategory" className="block text-gray-700 font-medium mb-2">
-                      Updated Category Name
+                      Updated State Name
                     </label>
                     <input
                       type="text"
@@ -199,4 +200,4 @@ const CreateCategory = () => {
   );
 };
 
-export default CreateCategory;
+export default CreateStates;

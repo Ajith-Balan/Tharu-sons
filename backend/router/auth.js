@@ -11,8 +11,9 @@ import {
   Forget,
   verifyotp,
   updatePassword,
+  getoneManager,
 } from '../controllers/authcontroller.js';
-import { isAdmin, requireSignIn } from '../middlewares/authmiddleware.js';
+import { isAdmin, isManager, requireSignIn } from '../middlewares/authmiddleware.js';
 
 const router = express.Router();
 
@@ -25,6 +26,10 @@ router.post('/login', loginController);
 // Test route for admin access, protected by sign-in and admin check
 router.get('/test', requireSignIn, isAdmin, testController);
 
+router.get('/getmanager/:id',   getoneManager);
+
+
+
 // Route to check if a user is authenticated (without admin check)
 router.get('/userauth', requireSignIn, (req, res) => {
   res.status(200).send({ ok: true });
@@ -33,12 +38,18 @@ router.get('/userauth', requireSignIn, (req, res) => {
 
 router.get('/adminauth', requireSignIn, isAdmin, (req, res) => {
   res.status(200).send({ ok: true });
+
+});
+
+router.get('/managerauth', requireSignIn,  isManager, (req, res) => {
+  res.status(200).send({ ok: true });
 });
 
 
 router.put('/profile', requireSignIn, updateProfile)
 
 router.post('/resetpassword',  updatePassword)
+
 
 
 

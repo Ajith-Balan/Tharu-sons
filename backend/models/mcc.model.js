@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema(
+const mccSchema = new mongoose.Schema(
   {
-    productName: {
+    sitemanager: {
       type: String,
       required: true,
     },
-    productphoto:{
+    supervisor:{
 type:String
     },
-    size:{
+    livework:{
       type:String
     },
     productDescription: {
       type: String,
       required: true,
-    },
+    }, 
     quantity: {
       type: Number,
       required: true,
@@ -59,4 +59,4 @@ type:String
   { timestamps: true }
 );
 
-export default mongoose.model("Order", orderSchema);
+export default mongoose.model("mcc", mccSchema);

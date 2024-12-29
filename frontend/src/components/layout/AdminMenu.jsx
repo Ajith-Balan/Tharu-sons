@@ -3,36 +3,44 @@ import { Link } from 'react-router-dom';
 
 const AdminMenu = () => {
   return (
-    <div className="p-4 mt-5">
-      <div className="flex flex-col space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
-        <Link 
-          to="/dashboard/admin/create-category" 
-          className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded shadow-md text-center"
-        >
-          Add/Create State
-        </Link>
-        <Link 
-          to="/dashboard/admin/create-product" 
-          className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded shadow-md text-center"
-        >
-          Create Site place
-        </Link>
-        <Link 
-          to="/dashboard/admin/create-type" 
-          className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded shadow-md text-center"
-        >
-          Create Type
-        </Link>
-       
-    
-        <Link 
-          to="/dashboard/admin/orderslist" 
-          className="bg-gray-100 hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded shadow-md text-center"
-        >
-          Orders List
-        </Link>
+    <nav className="bg-gray-200 rounded w-full text-black-800 shadow-md">
+      <div className="container mx-auto px-4">
+        <ul className="flex flex-wrap justify-center md:justify-start space-x-4 py-3">
+          <li>
+            <Link 
+              to="/dashboard/admin/create-states" 
+              className="hover:bg-gray-700 px-4 py-2 rounded transition duration-200"
+            >
+              State +
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/dashboard/admin/create-site" 
+              className="hover:bg-gray-700 px-4 py-2 rounded transition duration-200"
+            >
+           Site Place +
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/dashboard/admin/create-type" 
+              className="hover:bg-gray-700 px-4 py-2 rounded transition duration-200"
+            >
+              Type +
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/dashboard/admin/orderslist" 
+              className="hover:bg-gray-700 px-4 py-2 rounded transition duration-200"
+            >
+              Orders List
+            </Link>
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
 };
 

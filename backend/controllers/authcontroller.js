@@ -132,7 +132,7 @@ export const loginController = async (req, res) => {
       const { id } = req.params; // Extract `id` from request parameters
   
       // Find one user with role 2 for the given type
-      const manager = await userModel.findOne({ type: id, role: 2 });
+      const manager = await userModel.findOne({ type: id || auth.user.type, role: 2 });
   
       if (!manager) {
         return res.status(404).send({

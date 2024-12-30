@@ -108,9 +108,6 @@ export const statewiseworktypeController = async (req, res) => {
       });
     }
 
-
-    
-
     // Fetch sites by state _id (use state._id)
     const sites = await worktypeModel.find({ state: state._id });
 

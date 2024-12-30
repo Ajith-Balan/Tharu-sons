@@ -37,6 +37,7 @@ export async function createtrainController(req, res) {
 
 export async function getlivetraincontroller(req,res){
   try{
+    
 
       const live=await mcctrainModel.find({status:"processing"});
       res.status(200).send(live)
